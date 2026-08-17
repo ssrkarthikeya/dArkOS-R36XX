@@ -13,7 +13,9 @@ dos2unix
 espeak-ng
 exfatprogs
 ffmpeg
+firmware-atheros
 firmware-mediatek
+firmware-misc-nonfree
 firmware-realtek
 fonts-noto-cjk
 git
@@ -65,7 +67,9 @@ mbrola
 mbrola-us1
 mbrola-us2
 mbrola-us3
+net-tools
 netcat-openbsd
+network-manager
 ntfs-3g
 p7zip-full
 premake4
@@ -85,10 +89,13 @@ sshpass
 systemd-timesyncd
 tar
 unzip
+usbutils
 vlc-bin
 vlc-data
 vlc-plugin-base
 wget
+wireless-tools
+wpasupplicant
 xfsprogs
 xxd
 zip

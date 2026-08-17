@@ -240,7 +240,19 @@ fi
 sudo chroot Arkbuild/ bash -c "systemctl set-default multi-user.target"
 if [[ "$UNIT" == "rgb10" ]]; then
   sudo cp device/rgb10/* Arkbuild/usr/local/bin/
-elif [[ "$UNIT" == "rg351mp" ]] || [[ "$UNIT" == "g350" ]] || [[ "$UNIT" == "a10mini" ]] || [[ "$UNIT" == "r36xx" ]]; then
+elif [[ "$UNIT" == "r36xx" ]]; then
+  sudo cp device/r36xx/*.sh Arkbuild/usr/local/bin/
+  sudo cp device/r36xx/*.py Arkbuild/usr/local/bin/
+  sudo cp device/r36xx/*.green Arkbuild/usr/local/bin/ 2>/dev/null || true
+  sudo cp device/r36xx/*.red Arkbuild/usr/local/bin/ 2>/dev/null || true
+  sudo cp device/r36xx/fix_power_led Arkbuild/usr/local/bin/
+  sudo cp device/r36xx/checkbrightonboot Arkbuild/usr/local/bin/
+  sudo cp device/r36xx/WiFi.sh Arkbuild/opt/system/
+  sudo cp device/r36xx/*.service Arkbuild/etc/systemd/system/ 2>/dev/null || true
+  sudo chroot Arkbuild/ bash -c "chown -R ark:ark /opt"
+  sudo chmod 777 Arkbuild/opt/system/*.sh 2>/dev/null || true
+  sudo chroot Arkbuild/ bash -c "systemctl enable 351mp batt_led wifi_importer 2>/dev/null || true"
+elif [[ "$UNIT" == "rg351mp" ]] || [[ "$UNIT" == "g350" ]] || [[ "$UNIT" == "a10mini" ]]; then
   sudo cp device/rg351mp/*.sh Arkbuild/usr/local/bin/
   sudo cp device/rg351mp/*.py Arkbuild/usr/local/bin/
   sudo cp device/rg351mp/*.green Arkbuild/usr/local/bin/
