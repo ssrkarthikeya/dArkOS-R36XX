@@ -119,7 +119,7 @@ sudo chroot Arkbuild/ bash -c "systemctl disable getty@tty0.service getty@tty1.s
 sudo chroot Arkbuild/ bash -c "systemctl disable ModemManager polkit"
 
 # Disable ssh service from automatically starting
-sudo chroot Arkbuild/ bash -c "systemctl enable ssh"
+sudo chroot Arkbuild/ bash -c "systemctl disable ssh"
 
 # Update Messaage of the Day
 sudo cp -f scripts/00-header Arkbuild/etc/update-motd.d/00-header
@@ -257,8 +257,10 @@ elif [[ "$UNIT" == "r36xx" ]]; then
   sudo mkdir -p Arkbuild/usr/local/share/r36xx
   sudo cp -vf device/r36xx/dtb/*.dtb Arkbuild/usr/local/share/r36xx/ 2>/dev/null || true
   sudo cp device/r36xx/*.rules Arkbuild/etc/udev/rules.d/ 2>/dev/null || true
-  sudo mkdir -p Arkbuild/lib/firmware/rtlwifi
+  sudo mkdir -p Arkbuild/lib/firmware/rtlwifi Arkbuild/lib/firmware/mediatek Arkbuild/lib/firmware/rtl_bt
   sudo cp -vf firmware/rtlwifi/*.bin Arkbuild/lib/firmware/rtlwifi/ 2>/dev/null || true
+  sudo cp -vf firmware/mediatek/*.bin Arkbuild/lib/firmware/mediatek/ 2>/dev/null || true
+  sudo cp -vf firmware/rtl_bt/*.bin Arkbuild/lib/firmware/rtl_bt/ 2>/dev/null || true
   sudo cp -vf firmware/*.bin firmware/*.fw Arkbuild/lib/firmware/ 2>/dev/null || true
   sudo cp device/r36xx/*.service Arkbuild/etc/systemd/system/ 2>/dev/null || true
   sudo chroot Arkbuild/ bash -c "chown -R ark:ark /opt"
@@ -500,8 +502,12 @@ sudo cp -a scummvm/scripts/Scan* ${fat32_mountpoint}/scummvm/
 sudo cp -a hypseus-singe/scripts/Scan* ${fat32_mountpoint}/alg/
 sudo cp -a scummvm/scripts/menu.scummvm ${fat32_mountpoint}/scummvm/
 
-# Clone some themes to the roms/themes folder
-sudo git clone --depth=1 https://github.com/Jetup13/es-theme-nes-box.git ${fat32_mountpoint}/themes/es-theme-nes-box
+# Clone curated clean 4:3 themes to the roms/themes folder
+sudo git clone --depth=1 https://github.com/Jetup13/es-theme-nes-box.git ${fat32_mountpoint}/themes/es-theme-nes-box 2>/dev/null || true
+sudo git clone --depth=1 https://github.com/carlodariolopes/es-theme-epicnoir.git ${fat32_mountpoint}/themes/es-theme-epicnoir 2>/dev/null || true
+sudo git clone --depth=1 https://github.com/Jetup13/es-theme-minimal-arkos.git ${fat32_mountpoint}/themes/es-theme-minimal-arkos 2>/dev/null || true
+sudo git clone --depth=1 https://github.com/Jetup13/es-theme-switch.git ${fat32_mountpoint}/themes/es-theme-switch 2>/dev/null || true
+sudo git clone --depth=1 https://github.com/anthonycaccese/es-theme-art-book-next-4-3.git ${fat32_mountpoint}/themes/es-theme-art-book-next 2>/dev/null || true
 sync
 
 # Create roms.tar for use after exfat partition creation

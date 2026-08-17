@@ -182,11 +182,18 @@ echo -e "${GREEN}[+] BOOT partition configured and unmounted cleanly.${NC}"
 echo -e "${BLUE}[5/6] Mounting ROOTFS partition ($ROOTFS_PART) and injecting core services...${NC}"
 mount "$ROOTFS_PART" "$TMP_ROOTFS"
 
-# Inject uncompressed Realtek Wi-Fi microcode
-mkdir -p "$TMP_ROOTFS/lib/firmware/rtlwifi"
+# Inject uncompressed Wi-Fi microcode collection (Realtek, MediaTek, Ralink, Atheros)
+mkdir -p "$TMP_ROOTFS/lib/firmware/rtlwifi" "$TMP_ROOTFS/lib/firmware/mediatek" "$TMP_ROOTFS/lib/firmware/rtl_bt"
 if [ -d "$SCRIPT_DIR/firmware/rtlwifi" ]; then
     cp -vf "$SCRIPT_DIR/firmware/rtlwifi"/*.bin "$TMP_ROOTFS/lib/firmware/rtlwifi/" 2>/dev/null || true
 fi
+if [ -d "$SCRIPT_DIR/firmware/mediatek" ]; then
+    cp -vf "$SCRIPT_DIR/firmware/mediatek"/*.bin "$TMP_ROOTFS/lib/firmware/mediatek/" 2>/dev/null || true
+fi
+if [ -d "$SCRIPT_DIR/firmware/rtl_bt" ]; then
+    cp -vf "$SCRIPT_DIR/firmware/rtl_bt"/*.bin "$TMP_ROOTFS/lib/firmware/rtl_bt/" 2>/dev/null || true
+fi
+cp -vf "$SCRIPT_DIR/firmware"/*.bin "$SCRIPT_DIR/firmware"/*.fw "$TMP_ROOTFS/lib/firmware/" 2>/dev/null || true
 
 # Inject USB Autodetect daemon
 mkdir -p "$TMP_ROOTFS/etc/udev/rules.d" "$TMP_ROOTFS/usr/local/bin"
@@ -214,7 +221,6 @@ fi
 
 # Auto-enable SSH server
 mkdir -p "$TMP_ROOTFS/etc/systemd/system/multi-user.target.wants"
-ln -sf "/lib/systemd/system/ssh.service" "$TMP_ROOTFS/etc/systemd/system/multi-user.target.wants/ssh.service" 2>/dev/null || true
 
 sync
 umount "$TMP_ROOTFS"

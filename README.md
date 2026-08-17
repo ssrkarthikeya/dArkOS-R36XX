@@ -17,17 +17,25 @@
    - Out-of-the-box compatibility with **Panel 1 through Panel 8** screens.
    - Pre-configured with the verified **Panel 4** display timing tree (`640x480`).
    - Built-in on-device panel switcher utility (`/opt/system/Switch_Panel.sh`).
-2. ⚡ **5V USB OTG & Networking**:
-   - 5V USB OTG power boost enabled in DTB for Wi-Fi dongles and phone tethering.
-   - Pre-bundled uncompressed Realtek Wi-Fi microcode (`RTL8188EUS`, `RTL8192EU`, `RTL8821CU`).
+2. 🛡️ **Hardware-Protected OTA Update Engine**:
+   - Built-in DTB Armor Vault in `Update.sh` that automatically snapshots and restores verified R36XX screen panel timings, preventing any upstream kernel updates from causing black screens.
+3. 🔒 **Granular Remote Services Manager**:
+   - Remote services (SSH, Samba, Web File Browser) are **disabled by default** out of the box for security.
+   - Interactive on-device **Remote Services Manager** under Options to independently toggle and configure SSH, Samba Windows Shares, Web File Browser, and NTP.
+4. ⚡ **5V USB OTG & Modern Wi-Fi Chipset Support**:
+   - 5V USB OTG power boost enabled in DTB for budget USB Wi-Fi dongles and phone tethering.
+   - Bundled uncompressed microcode collection for post-2021 budget Wi-Fi dongles:
+     - **MediaTek / Ralink**: `MT7601U`, `MT7610U`, `MT7662U`, `RT5370`, `RT2870`, `RT3070`
+     - **Realtek**: `RTL8188EUS`, `RTL8188FU`, `RTL8192EU`, `RTL8192FU`, `RTL8821CU`, `RTL8822BU`, `RTL8723BU/DE/BE`
+     - **Atheros**: `AR9271`, `AR7010`
    - Plug-and-play Wi-Fi auto-configuration via `/boot/wifikey.txt`.
-3. 🔊 **Clean High-Fidelity Audio**:
+5. 🔊 **Clean High-Fidelity Audio**:
    - Calibrated ALSA audio state eliminating Wi-Fi RF ground buzz and idle hiss.
-4. 🔋 **PMIC & Graceful Shutdown**:
+6. 🎨 **Curated Clean Themes Pre-Bundled**:
+   - Pre-packaged with clean, high-performance 4:3 640x480 EmulationStation themes: `es-theme-epicnoir`, `es-theme-nes-box`, `es-theme-minimal-arkos`, `es-theme-switch`, and `es-theme-art-book-next`.
+7. 🔋 **PMIC & Graceful Shutdown**:
    - Tuned ADC battery curve for the onboard **Rockchip RK817-1 PMIC**.
    - Dedicated power-key event daemon for clean, filesystem-safe shutdowns.
-5. 🛡️ **SSH Auto-Enabled**:
-   - SSH server enabled by default on port 22 (`ark` / `ark`).
 
 ---
 
