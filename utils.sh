@@ -1,5 +1,13 @@
 #!/bin/bash
 
+function verify_action() {
+  code=$?
+  if [ $code -ne 0 ]; then
+    echo -e "Exiting build with return code ${code}"
+    exit 1
+  fi
+}
+
 # Set build date
 BUILD_DATE=$(date "+%m%d%Y")
 

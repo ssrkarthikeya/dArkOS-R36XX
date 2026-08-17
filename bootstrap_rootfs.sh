@@ -1,6 +1,10 @@
 #!/bin/bash
 
 echo -e "Boostraping Debian....\n\n"
+EATMYDATA=""
+if command -v eatmydata &>/dev/null; then
+  EATMYDATA="eatmydata"
+fi
 mkdir -p Arkbuild_package_cache
 if [ -f "Arkbuild_package_cache/debian_${DEBIAN_CODE_NAME}_rootfs.tar.gz" ]; then
     echo "[*] Found pre-built base rootfs cache for ${DEBIAN_CODE_NAME}! Rapid unpacking in progress..."
@@ -12,19 +16,19 @@ else
 	  export DEBIAN_LOCATION="http://deb.debian.org/debian/"
 	fi
 	# Bootstrap base system
-	sudo eatmydata debootstrap --no-check-gpg --include=eatmydata --resolve-deps --arch=arm64 --foreign ${DEBIAN_CODE_NAME} Arkbuild ${DEBIAN_LOCATION}
+	sudo ${EATMYDATA} debootstrap --no-check-gpg --include=eatmydata --resolve-deps --arch=arm64 --foreign ${DEBIAN_CODE_NAME} Arkbuild ${DEBIAN_LOCATION}
 	sudo cp /usr/bin/qemu-aarch64-static Arkbuild/usr/bin/
 	if [[ "${ENABLE_CACHE}" == "y" ]]; then
 	  echo 'Acquire::http::proxy "http://127.0.0.1:3142";' | sudo tee Arkbuild/etc/apt/apt.conf.d/99proxy
 	fi
 	sudo chroot Arkbuild/ apt-get -y install ccache eatmydata
-	sudo chroot Arkbuild/ eatmydata /debootstrap/debootstrap --second-stage
+	sudo chroot Arkbuild/ ${EATMYDATA} /debootstrap/debootstrap --second-stage
 
 	if [[ "${BUILD_ARMHF}" == "y" ]]; then
 	  # Enable armhf architecture and update
 	  sudo chroot Arkbuild/ dpkg --add-architecture armhf
-	  sudo chroot Arkbuild/ eatmydata apt-get -y update
-	  sudo chroot Arkbuild/ eatmydata apt-get -y install libc6:armhf liblzma5:armhf libasound2t64:armhf libfreetype6:armhf libxkbcommon-x11-0:armhf libudev1:armhf libudev0:armhf libgbm1:armhf libstdc++6:armhf
+	  sudo chroot Arkbuild/ ${EATMYDATA} apt-get -y update
+	  sudo chroot Arkbuild/ ${EATMYDATA} apt-get -y install libc6:armhf liblzma5:armhf libasound2t64:armhf libfreetype6:armhf libxkbcommon-x11-0:armhf libudev1:armhf libudev0:armhf libgbm1:armhf libstdc++6:armhf
 	fi
 	sudo cat Arkbuild/etc/os-release | grep "^DEBIAN_VERSION_FULL=" | cut -d'=' -f2 > Arkbuild_package_cache/debian_${DEBIAN_CODE_NAME}_rootfs.commit
 	sudo tar -cvpzf Arkbuild_package_cache/debian_${DEBIAN_CODE_NAME}_rootfs.tar.gz Arkbuild/
@@ -44,10 +48,10 @@ sudo chmod 0755 Arkbuild/usr/sbin/policy-rc.d
 sudo chroot Arkbuild/ mount -t proc proc /proc
 
 # Install base runtime packages
-sudo chroot Arkbuild/ eatmydata apt-get -y update
-sudo chroot Arkbuild/ eatmydata apt-get -y upgrade
-sudo chroot Arkbuild/ eatmydata apt-get install -y btrfs-progs initramfs-tools sudo evtest network-manager systemd-sysv locales locales-all ssh dosfstools fluidsynth
-sudo chroot Arkbuild/ eatmydata apt-get install -y python3 python3-pip
+sudo chroot Arkbuild/ ${EATMYDATA} apt-get -y update
+sudo chroot Arkbuild/ ${EATMYDATA} apt-get -y upgrade
+sudo chroot Arkbuild/ ${EATMYDATA} apt-get install -y btrfs-progs initramfs-tools sudo evtest network-manager systemd-sysv locales locales-all ssh dosfstools fluidsynth
+sudo chroot Arkbuild/ ${EATMYDATA} apt-get install -y python3 python3-pip
 sudo sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' Arkbuild/etc/locale.gen
 echo 'LANG="en_US.UTF-8"' | sudo tee -a Arkbuild/etc/default/locale > /dev/null
 echo -e "export LC_All=en_US.UTF-8" | sudo tee -a Arkbuild/root/.bashrc > /dev/null
@@ -56,7 +60,7 @@ sudo chroot Arkbuild/ bash -c "locale-gen"
 sudo chroot Arkbuild/ systemctl enable NetworkManager
 
 # Install libmali, DRM, and GBM libraries for ${CHIPSET}
-sudo chroot Arkbuild/ eatmydata apt-get install -y libdrm-dev libgbm1
+sudo chroot Arkbuild/ ${EATMYDATA} apt-get install -y libdrm-dev libgbm1
 
 setup_ark_user
 sleep 10
