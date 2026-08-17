@@ -70,6 +70,13 @@ rgb30:
 	@sleep 5
 	./build_rgb30.sh
 
+r36xx:
+	$(info dArkOS will be built using the $(DEBIAN_CODE_NAME) release of Debian.)
+	$(info debian building caching enabled? ${ENABLE_CACHE})
+	$(info adding armhf 32bit userspace? ${BUILD_ARMHF})
+	@sleep 5
+	./build_r36xx.sh
+
 rg351mp:
 	$(info dArkOS will be built using the $(DEBIAN_CODE_NAME) release of Debian.)
 	$(info debian building caching enabled? ${ENABLE_CACHE})
