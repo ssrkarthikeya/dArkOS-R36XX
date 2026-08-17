@@ -6,7 +6,7 @@ if command -v eatmydata &>/dev/null; then
   EATMYDATA="eatmydata"
 fi
 mkdir -p Arkbuild_package_cache
-if [ -f "Arkbuild_package_cache/debian_${DEBIAN_CODE_NAME}_rootfs.tar.gz" ]; then
+if [ -n "${DEBIAN_CODE_NAME}" ] && [ -s "Arkbuild_package_cache/debian_${DEBIAN_CODE_NAME}_rootfs.tar.gz" ]; then
     echo "[*] Found pre-built base rootfs cache for ${DEBIAN_CODE_NAME}! Rapid unpacking in progress..."
     sudo tar -xvzpf "Arkbuild_package_cache/debian_${DEBIAN_CODE_NAME}_rootfs.tar.gz"
 else

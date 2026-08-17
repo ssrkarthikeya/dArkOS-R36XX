@@ -1,6 +1,15 @@
 #!/bin/bash
 
 echo -e "Creating partitions...\n\n"
+# Clean up any stale mounts before creating fresh filesystem
+for m in Arkbuild/home/ark/Arkbuild_ccache Arkbuild/dev/pts Arkbuild/dev Arkbuild/proc Arkbuild/sys Arkbuild Arkbuild-final; do
+  if grep -qs "$m" /proc/mounts; then
+    sudo umount -l "$m" 2>/dev/null || true
+  fi
+done
+for loop in $(losetup -j ArkOS_File_System.img 2>/dev/null | cut -d: -f1); do
+  sudo losetup -d "$loop" 2>/dev/null || true
+done
 # Partition setup
 ROOT_FILESYSTEM_FORMAT="btrfs"
 if [ "$ROOT_FILESYSTEM_FORMAT" == "xfs" ] || [ "$ROOT_FILESYSTEM_FORMAT" == "btrfs" ]; then

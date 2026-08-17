@@ -20,6 +20,7 @@ fi
 # Set chipset & target device
 export CHIPSET=rk3326
 export UNIT=r36xx
+export DEBIAN_CODE_NAME=trixie
 
 # Performance & Multi-Core Optimizations
 export MAKEFLAGS="-j$(nproc)"
