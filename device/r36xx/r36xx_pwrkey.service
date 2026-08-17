@@ -1,0 +1,12 @@
+[Unit]
+Description=R36XX Graceful Power Key Daemon
+After=local-fs.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /usr/local/bin/r36xx_pwrkey.py
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

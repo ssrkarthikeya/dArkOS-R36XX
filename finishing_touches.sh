@@ -105,6 +105,11 @@ LABEL=ROOTFS / ${ROOT_FILESYSTEM_FORMAT} ${ROOT_FILESYSTEM_MOUNT_OPTIONS} 0 0
 LABEL=BOOT /boot vfat defaults 0 2
 LABEL=EASYROMS /roms exfat defaults,auto,umask=000,uid=1000,gid=1000,noatime 0 0
 /roms/tools /opt/system/Tools none nofail,x-systemd.device-timeout=7,bind
+
+# RAM disks to eliminate SD card write thrashing and prevent corruption
+tmpfs /tmp tmpfs defaults,nosuid,nodev,noatime,size=128M 0 0
+tmpfs /var/tmp tmpfs defaults,nosuid,nodev,noatime,size=64M 0 0
+tmpfs /var/log tmpfs defaults,nosuid,nodev,noatime,size=32M 0 0
 EOF
 
 # Disable getty on tty0 and tty1
@@ -251,7 +256,7 @@ elif [[ "$UNIT" == "r36xx" ]]; then
   sudo cp device/r36xx/*.service Arkbuild/etc/systemd/system/ 2>/dev/null || true
   sudo chroot Arkbuild/ bash -c "chown -R ark:ark /opt"
   sudo chmod 777 Arkbuild/opt/system/*.sh 2>/dev/null || true
-  sudo chroot Arkbuild/ bash -c "systemctl enable 351mp batt_led wifi_importer 2>/dev/null || true"
+  sudo chroot Arkbuild/ bash -c "systemctl enable 351mp batt_led wifi_importer r36xx_pwrkey 2>/dev/null || true"
 elif [[ "$UNIT" == "rg351mp" ]] || [[ "$UNIT" == "g350" ]] || [[ "$UNIT" == "a10mini" ]]; then
   sudo cp device/rg351mp/*.sh Arkbuild/usr/local/bin/
   sudo cp device/rg351mp/*.py Arkbuild/usr/local/bin/
