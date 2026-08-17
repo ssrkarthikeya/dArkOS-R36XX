@@ -13,6 +13,7 @@ dos2unix
 espeak-ng
 exfatprogs
 ffmpeg
+mpv
 firmware-atheros
 firmware-mediatek
 firmware-misc-nonfree

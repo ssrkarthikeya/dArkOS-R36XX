@@ -21,6 +21,12 @@ fi
 export CHIPSET=rk3326
 export UNIT=r36xx
 
+# Performance & Multi-Core Optimizations
+export MAKEFLAGS="-j$(nproc)"
+export CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)
+export QEMU_CPU="cortex-a35"
+export QEMU_RESERVED_VA="0x100000000"
+
 # Load shared utilities
 source ./utils.sh
 source ./prepare.sh

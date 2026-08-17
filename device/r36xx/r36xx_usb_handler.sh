@@ -58,14 +58,23 @@ case "$EVENT" in
     ;;
 
   storage_add)
-    log "USB Storage Device connected ($IFACE). Auto-mounting to /roms2..."
-    mkdir -p /roms2
-    mount "/dev/$IFACE" /roms2 2>/dev/null || true
-    log "Mounted /dev/$IFACE to /roms2"
+    log "USB Storage Device connected ($IFACE). Auto-mounting to /media/usb..."
+    mkdir -p /media/usb /roms/videos
+    mount -o ro "/dev/$IFACE" /media/usb 2>/dev/null || mount "/dev/$IFACE" /media/usb 2>/dev/null || true
+    
+    # Auto-link USB videos to EmulationStation Videos carousel
+    if [ -d "/media/usb/videos" ] || [ -d "/media/usb/movies" ]; then
+      ln -sf /media/usb/videos /roms/videos/USB_Videos 2>/dev/null || ln -sf /media/usb/movies /roms/videos/USB_Movies 2>/dev/null || true
+      log "Linked USB Video directories into /roms/videos/"
+    else
+      ln -sf /media/usb /roms/videos/USB_Drive 2>/dev/null || true
+      log "Linked entire USB drive into /roms/videos/USB_Drive"
+    fi
     ;;
 
   storage_remove)
     log "USB Storage Device removed ($IFACE)."
-    umount -l /roms2 2>/dev/null || true
+    rm -f /roms/videos/USB_Videos /roms/videos/USB_Movies /roms/videos/USB_Drive 2>/dev/null || true
+    umount -l /media/usb 2>/dev/null || true
     ;;
 esac

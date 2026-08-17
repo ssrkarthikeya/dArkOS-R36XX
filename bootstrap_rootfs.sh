@@ -1,8 +1,10 @@
 #!/bin/bash
 
 echo -e "Boostraping Debian....\n\n"
-if [ -f "Arkbuild_package_cache/debian_${DEBIAN_CODE_NAME}_rootfs.tar.gz" ] && [ "$(cat Arkbuild_package_cache/debian_${DEBIAN_CODE_NAME}_rootfs.commit)" == "$(curl -s https://deb.debian.org/debian/dists/stable/Release | grep "^Version:" | cut -d' ' -f2)" ]; then
-    sudo tar -xvzpf Arkbuild_package_cache/debian_${DEBIAN_CODE_NAME}_rootfs.tar.gz
+mkdir -p Arkbuild_package_cache
+if [ -f "Arkbuild_package_cache/debian_${DEBIAN_CODE_NAME}_rootfs.tar.gz" ]; then
+    echo "[*] Found pre-built base rootfs cache for ${DEBIAN_CODE_NAME}! Rapid unpacking in progress..."
+    sudo tar -xvzpf "Arkbuild_package_cache/debian_${DEBIAN_CODE_NAME}_rootfs.tar.gz"
 else
 	if [[ "${ENABLE_CACHE}" == "y" ]]; then
 	  export DEBIAN_LOCATION="http://127.0.0.1:3142/deb.debian.org/debian/"

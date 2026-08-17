@@ -1,5 +1,5 @@
 [Unit]
-Description=ArkOS firstboot
+Description=dArkOS firstboot
 
 [Service]
 Type=oneshot

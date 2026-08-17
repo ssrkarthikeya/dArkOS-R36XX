@@ -6,9 +6,9 @@ function Enable {
   nmcli d disconnect wlan0 > /dev/null
   host_ap_masked=$(systemctl status hostapd.service | grep masked)
   if [ ! -z $1 ]; then
-    sudo sed -i "/ssid\=/c\ssid\=ArkOS_AP_$1" /etc/hostapd/hostapd.conf
+    sudo sed -i "/ssid\=/c\ssid\=dArkOS_AP_$1" /etc/hostapd/hostapd.conf
   else
-    sudo sed -i "/ssid\=/c\ssid\=ArkOS_AP" /etc/hostapd/hostapd.conf
+    sudo sed -i "/ssid\=/c\ssid\=dArkOS_AP" /etc/hostapd/hostapd.conf
   fi
   if [ ! -z "${host_ap_masked}" ]; then
     sudo systemctl unmask hostapd.service

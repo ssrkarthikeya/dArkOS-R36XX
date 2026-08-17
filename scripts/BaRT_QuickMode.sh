@@ -74,7 +74,7 @@ if [ "$?" -eq "10" ]; then
           --no-collapse \
           --clear \
           --cancel-label "You must select one" \
-          --menu "Distro: $(cat /usr/share/plymouth/themes/text.plymouth | grep ArkOS | cut -c 7-50)        Batt: $(cat /sys/class/power_supply/battery/capacity)%" 14 60 10)
+          --menu "Distro: $(cat /usr/share/plymouth/themes/text.plymouth | grep dArkOS | cut -c 7-50)        Batt: $(cat /sys/class/power_supply/battery/capacity)%" 14 60 10)
 
           options=(
                   "1)" "Continue with Quick Mode boot"
@@ -82,8 +82,8 @@ if [ "$?" -eq "10" ]; then
                   "3)" "Wifi"
                   "4)" "Enable Remote Services"
                   "5)" "351Files"
-                  "6)" "Backup ArkOS Settings"
-                  "7)" "Restore ArkOS Settings"
+                  "6)" "Backup dArkOS Settings"
+                  "7)" "Restore dArkOS Settings"
                   "8)" "Reboot"
                   "9)" "Power Off"
           )
@@ -113,11 +113,11 @@ if [ "$?" -eq "10" ]; then
                           "5)") /opt/system/351Files.sh 2>&1 > /dev/tty1
                                 ;;
                           "6)") kill_boot_controls
-                                /opt/system/Advanced/"Backup ArkOS Settings.sh" 2>&1 > /dev/tty1
+                                /opt/system/Advanced/"Backup dArkOS Settings.sh" 2>&1 > /dev/tty1
                                 boot_controls
                                 ;;
                           "7)") kill_boot_controls
-                                /opt/system/Advanced/"Restore ArkOS Settings.sh" 2>&1 > /dev/tty1
+                                /opt/system/Advanced/"Restore dArkOS Settings.sh" 2>&1 > /dev/tty1
                                 boot_controls
                                 ;;
                           "8)") sudo reboot

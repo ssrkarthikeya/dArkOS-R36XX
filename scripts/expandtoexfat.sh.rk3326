@@ -130,6 +130,8 @@ log "Phase 2: Resizing filesystems and creating EASYROMS partition..."
   done
   sync
 
+  sudo mkdir -p /roms/videos
+
   log "Deploying themes to /roms/themes/..."
   sudo rm -rf /roms/themes/es-theme-nes-box/ &> /dev/null || true
   if [ -d "/tempthemes" ]; then

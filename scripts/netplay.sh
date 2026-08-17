@@ -89,7 +89,7 @@ ExitMenu() {
 }
 
 Select() {
-  if [[ "$1" != "ArkOS_AP" ]]; then
+  if [[ "$1" != "dArkOS_AP" ]]; then
     pgrep -f gptokeyb | sudo xargs kill -9
   fi
 
@@ -98,7 +98,7 @@ Select() {
   fi
 
   dialog --infobox "\nConnecting to adhoc network named $1..." 5 $width 2>&1 > /dev/tty0
-  if [[ "$1" == "ArkOS_AP" ]]; then
+  if [[ "$1" == "dArkOS_AP" ]]; then
     clist2=`sudo wpa_cli scan > /dev/null && sudo wpa_cli scan_results`
     if [ -z "$(echo $clist2 | grep ArkOS_)" ]; then
       sleep 2
@@ -112,7 +112,7 @@ Select() {
   if [ -z "$success" ]; then
     output="Could not find and connect to $1 ..."
     sudo rm -f /etc/NetworkManager/system-connections/"$1".nmconnection
-    if [[ "$1" != "ArkOS_AP" ]]; then
+    if [[ "$1" != "dArkOS_AP" ]]; then
       if [[ ! -z $(pgrep -f gptokeyb) ]]; then
         pgrep -f gptokeyb | sudo xargs kill -9
       fi
@@ -152,7 +152,7 @@ Select() {
     continue
   elif [[ "$ExitCode" == "139" ]]; then
     ExitMenu
-  elif [[ "$1" != "ArkOS_AP" ]]; then
+  elif [[ "$1" != "dArkOS_AP" ]]; then
     ExitCode="138"
     ExitMenu
   fi
@@ -195,10 +195,10 @@ do
     clist=`sleep 1 && sudo wpa_cli scan > /dev/null && sudo wpa_cli scan_results`
 
     if [ ! -z "$1" ] && [ ! -z "$(echo $clist | grep $core)" ]; then
-      Select ArkOS_AP_"$core" "$1"
+      Select dArkOS_AP_"$core" "$1"
       break
     elif [ ! -z "$(echo $clist | grep $core)" ]; then
-      Select ArkOS_AP_"$core"
+      Select dArkOS_AP_"$core"
       break
     fi
   else
@@ -277,12 +277,12 @@ output=`arkos_ap_mode.sh Enable`
 success=`echo "$output" | grep Success`
 
 if [ -z "$success" ]; then
-  output="Failed setting up ArkOS_AP for client connection."
+  output="Failed setting up dArkOS_AP for client connection."
   dialog --infobox "\n$output" 6 $width 2>&1 > /dev/tty0
   sleep 3
   GameShare
 else
-  output="ArkOS_AP is ready for a client connection"
+  output="dArkOS_AP is ready for a client connection"
   dialog --infobox "\n$output" 6 $width 2>&1 > /dev/tty0
   AP_ON="On"
   sleep 3
@@ -390,7 +390,7 @@ GameShare() {
           GameShare
         ;;
         2)sudo systemctl start ssh &
-          Select ArkOS_AP
+          Select dArkOS_AP
           if [ "$success" ]; then
             success=""
             systemctl is-active --quiet ssh.service

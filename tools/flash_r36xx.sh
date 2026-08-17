@@ -219,6 +219,32 @@ if [ -f "$SCRIPT_DIR/audio/asound.state.rk3326" ]; then
     cp -vf "$SCRIPT_DIR/audio/asound.state.rk3326" "$TMP_ROOTFS/var/lib/alsa/asound.state"
 fi
 
+# Inject Hardware-Accelerated Media Player Suite
+mkdir -p "$TMP_ROOTFS/opt/inttools" "$TMP_ROOTFS/usr/local/share/r36xx"
+if [ -f "$SCRIPT_DIR/device/r36xx/mediaplayer.sh" ]; then
+    cp -vf "$SCRIPT_DIR/device/r36xx/mediaplayer.sh" "$TMP_ROOTFS/usr/local/bin/mediaplayer.sh"
+    chmod +x "$TMP_ROOTFS/usr/local/bin/mediaplayer.sh"
+fi
+if [ -f "$SCRIPT_DIR/device/r36xx/mediaplayer.gptk" ]; then
+    cp -vf "$SCRIPT_DIR/device/r36xx/mediaplayer.gptk" "$TMP_ROOTFS/opt/inttools/mediaplayer.gptk"
+    cp -vf "$SCRIPT_DIR/device/r36xx/mediaplayer.gptk" "$TMP_ROOTFS/usr/local/share/r36xx/mediaplayer.gptk"
+fi
+
+# Inject Options Tools (Remote Services Manager, Panel Switcher, Hardware-Armor Update)
+mkdir -p "$TMP_ROOTFS/opt/system"
+if [ -f "$SCRIPT_DIR/dArkOS_Tools/Remote Services Manager.sh" ]; then
+    cp -vf "$SCRIPT_DIR/dArkOS_Tools/Remote Services Manager.sh" "$TMP_ROOTFS/opt/system/Remote Services Manager.sh"
+    chmod +x "$TMP_ROOTFS/opt/system/Remote Services Manager.sh"
+fi
+if [ -f "$SCRIPT_DIR/dArkOS_Tools/Update.sh" ]; then
+    cp -vf "$SCRIPT_DIR/dArkOS_Tools/Update.sh" "$TMP_ROOTFS/opt/system/Update.sh"
+    chmod +x "$TMP_ROOTFS/opt/system/Update.sh"
+fi
+if [ -f "$SCRIPT_DIR/device/r36xx/switch_panel.sh" ]; then
+    cp -vf "$SCRIPT_DIR/device/r36xx/switch_panel.sh" "$TMP_ROOTFS/opt/system/Switch_Panel.sh"
+    chmod +x "$TMP_ROOTFS/opt/system/Switch_Panel.sh"
+fi
+
 # Auto-enable SSH server
 mkdir -p "$TMP_ROOTFS/etc/systemd/system/multi-user.target.wants"
 

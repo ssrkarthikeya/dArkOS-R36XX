@@ -253,6 +253,10 @@ elif [[ "$UNIT" == "r36xx" ]]; then
   sudo cp device/r36xx/fix_power_led Arkbuild/usr/local/bin/
   sudo cp device/r36xx/checkbrightonboot Arkbuild/usr/local/bin/
   sudo cp device/r36xx/WiFi.sh Arkbuild/opt/system/
+  sudo cp -vf device/r36xx/*.gptk Arkbuild/opt/inttools/ 2>/dev/null || true
+  sudo cp -vf device/r36xx/*.gptk Arkbuild/usr/local/share/r36xx/ 2>/dev/null || true
+  sudo cp -vf device/r36xx/mediaplayer.sh Arkbuild/usr/local/bin/mediaplayer.sh 2>/dev/null || true
+  sudo chmod +x Arkbuild/usr/local/bin/mediaplayer.sh 2>/dev/null || true
   sudo cp device/r36xx/switch_panel.sh Arkbuild/opt/system/Switch_Panel.sh 2>/dev/null || true
   sudo mkdir -p Arkbuild/usr/local/share/r36xx
   sudo cp -vf device/r36xx/dtb/*.dtb Arkbuild/usr/local/share/r36xx/ 2>/dev/null || true

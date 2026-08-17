@@ -1,6 +1,9 @@
 #!/bin/bash
 printf "\n"
-printf "Welcome to dArkOS"
-printf "\n"
-printf "Based on $(cat /etc/os-release | grep -oP 'PRETTY_NAME="\K[^"]+') ($(uname -o) $(uname -rm))"
-printf "\n"
+printf "\e[1;36m======================================================================\e[0m\n"
+printf "\e[1;32m  🎮 Welcome to dArkOS-R36XX MultiPanel (Debian 13 Trixie)\e[0m\n"
+printf "\e[1;36m======================================================================\e[0m\n"
+printf "  OS:        $(cat /etc/os-release 2>/dev/null | grep -oP 'PRETTY_NAME="\K[^"]+' || echo 'Debian GNU/Linux 13 (trixie)')\n"
+printf "  Kernel:    $(uname -s) $(uname -r) ($(uname -m))\n"
+printf "  Hardware:  Rockchip RK3326 Multi-Panel Edition\n"
+printf "\e[1;36m----------------------------------------------------------------------\e[0m\n"
