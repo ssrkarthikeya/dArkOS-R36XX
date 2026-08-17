@@ -119,7 +119,7 @@ sudo chroot Arkbuild/ bash -c "systemctl disable getty@tty0.service getty@tty1.s
 sudo chroot Arkbuild/ bash -c "systemctl disable ModemManager polkit"
 
 # Disable ssh service from automatically starting
-sudo chroot Arkbuild/ bash -c "systemctl disable ssh"
+sudo chroot Arkbuild/ bash -c "systemctl enable ssh"
 
 # Update Messaage of the Day
 sudo cp -f scripts/00-header Arkbuild/etc/update-motd.d/00-header
