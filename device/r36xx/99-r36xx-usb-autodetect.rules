@@ -1,0 +1,15 @@
+# ==============================================================================
+# dArkOS-R36XX Intelligent USB Auto-Detection Udev Rules
+# ==============================================================================
+
+# 1. Wi-Fi Wireless Dongle (RTL8188, MT7601, RTL8821, etc.)
+ACTION=="add", SUBSYSTEM=="net", KERNEL=="wlan*", RUN+="/usr/local/bin/r36xx_usb_handler.sh wifi_add %k"
+ACTION=="remove", SUBSYSTEM=="net", KERNEL=="wlan*", RUN+="/usr/local/bin/r36xx_usb_handler.sh wifi_remove %k"
+
+# 2. Android Phone USB Tethering (RNDIS, CDC-Ethernet, CDC-NCM)
+ACTION=="add", SUBSYSTEM=="net", KERNEL=="usb*|eth*|en*", RUN+="/usr/local/bin/r36xx_usb_handler.sh tether_add %k"
+ACTION=="remove", SUBSYSTEM=="net", KERNEL=="usb*|eth*|en*", RUN+="/usr/local/bin/r36xx_usb_handler.sh tether_remove %k"
+
+# 3. USB Mass Storage (Flash Drive / External SSD)
+ACTION=="add", SUBSYSTEM=="block", ENV{DEVTYPE}=="partition", KERNEL=="sd[a-z][0-9]", RUN+="/usr/local/bin/r36xx_usb_handler.sh storage_add %k"
+ACTION=="remove", SUBSYSTEM=="block", ENV{DEVTYPE}=="partition", KERNEL=="sd[a-z][0-9]", RUN+="/usr/local/bin/r36xx_usb_handler.sh storage_remove %k"
