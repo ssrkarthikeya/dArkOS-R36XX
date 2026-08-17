@@ -5,6 +5,7 @@ ENABLE_CACHE ?= y
 BUILD_KODI ?= n
 BUILD_ARMHF ?= y
 BUILD_BLUEALSA ?= y
+FRONTEND ?= emulationstation
 
 # Ensure system binaries like parted are in the path, and silence strict GCC warnings
 PATH := $(PATH):/usr/sbin:/sbin
@@ -15,6 +16,7 @@ export ENABLE_CACHE
 export BUILD_KODI
 export BUILD_ARMHF
 export BUILD_BLUEALSA
+export FRONTEND
 export PATH
 export KCFLAGS
 
