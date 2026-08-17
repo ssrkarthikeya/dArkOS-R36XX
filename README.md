@@ -11,32 +11,34 @@
 
 ## 🌟 Overview & Key Features
 
-**dArkOS-R36XX** builds upon the official work of `christianhaitian/dArkOS`, introducing native hardware adaptation for the **R36S / R36XX** series of handheld consoles:
+**dArkOS-R36XX** builds upon the foundation of `christianhaitian/dArkOS`, adding native hardware adaptation, power calibration, and screen support for the **R36S / R36XX** family of handhelds:
 
 1. 📱 **Multi-Panel Display Support**:
    - Out-of-the-box compatibility with **Panel 1 through Panel 8** screens.
-   - Pre-configured with the verified **Panel 4** display timing and initialization tree.
-2. 🔋 **PMIC & Battery Calibration**:
-   - Tuned ADC voltage profiles specifically for the onboard **Rockchip RK817-1 PMIC**.
-   - Fixed LED indicators (Single Blue power indicator + Red charging indicator).
-3. ⚡ **Modern Debian 13 (Trixie) Userspace**:
-   - Multiarch **64-bit (arm64)** and **32-bit (armhf)** userspace.
-   - Access to over 64,000+ official Debian packages via `apt`.
-   - **Mesa 24.x Panfrost** GPU acceleration for Mali-G31 MP2.
-4. 🕹️ **PortMaster & Standalone Emulators**:
-   - Native support for PortMaster game ports (Celeste, SM64, Cave Story, Stardew Valley, etc.).
-   - Optimized standalone builds of **DuckStation, PPSSPP, Flycast, Drastic, and Mupen64Plus-Next**.
+   - Pre-configured with the verified **Panel 4** display timing tree (`640x480`).
+   - Built-in on-device panel switcher utility (`/opt/system/Switch_Panel.sh`).
+2. ⚡ **5V USB OTG & Networking**:
+   - 5V USB OTG power boost enabled in DTB for Wi-Fi dongles and phone tethering.
+   - Pre-bundled uncompressed Realtek Wi-Fi microcode (`RTL8188EUS`, `RTL8192EU`, `RTL8821CU`).
+   - Plug-and-play Wi-Fi auto-configuration via `/boot/wifikey.txt`.
+3. 🔊 **Clean High-Fidelity Audio**:
+   - Calibrated ALSA audio state eliminating Wi-Fi RF ground buzz and idle hiss.
+4. 🔋 **PMIC & Graceful Shutdown**:
+   - Tuned ADC battery curve for the onboard **Rockchip RK817-1 PMIC**.
+   - Dedicated power-key event daemon for clean, filesystem-safe shutdowns.
+5. 🛡️ **SSH Auto-Enabled**:
+   - SSH server enabled by default on port 22 (`ark` / `ark`).
 
 ---
 
 ## 🛠️ Building dArkOS for R36XX
 
 ### Recommended Build Environment
-* **OS:** Ubuntu 24.04 LTS (Noble) x86_64 or modern Linux distro.
-* **Storage:** 50+ GB free NVMe/SSD space.
-* **Privileges:** `sudo` access (used for `debootstrap` and rootfs mounting).
+* **OS:** Ubuntu 24.04 LTS (Noble) x86_64 or Debian 12/13.
+* **Storage:** 50+ GB free space.
+* **Privileges:** `sudo` access (required for `debootstrap` and rootfs image generation).
 
-### Quick Build
+### Quick Build Commands
 
 ```bash
 # Clone the repository
@@ -45,23 +47,37 @@ cd dArkOS-R36XX
 
 # Run the dedicated R36XX build engine
 ./build_r36xx.sh
+
+# Or build via Makefile target
+make r36xx
 ```
 
 ---
 
-## 📦 Flashing to MicroSD Card
+## ⚡ Automated Flashing Tool (`tools/flash_r36xx.sh`)
 
-1. Download or locate your generated `dArkOS_R36XX_trixie.img`.
-2. Flash to MicroSD (Slot 1 - Right Side / OS) using `dd` or Raspberry Pi Imager:
-   ```bash
-   sudo dd if=dArkOS_R36XX_trixie.img of=/dev/sdX bs=4M status=progress conv=fsync
-   ```
-3. Insert into the R36S console and power on!
+We provide an interactive flashing and injection utility to deploy dArkOS / ArkOS directly to your MicroSD card:
+
+```bash
+sudo ./tools/flash_r36xx.sh
+```
+
+**Features:**
+- Automatic block device detection with safety confirmation.
+- Direct `dd` write with buffer cache synchronization.
+- Automatic injection of Panel DTBs, Wi-Fi drivers, ALSA state, and power daemon.
+- Interactive prompt to pre-configure your home Wi-Fi credentials.
+
+---
+
+## 📚 Documentation
+
+For in-depth hardware specifications, schematics, and adaptation matrices, see [`docs/R36XX_HARDWARE.md`](docs/R36XX_HARDWARE.md).
 
 ---
 
 ## 📜 Credits & Acknowledgments
 
-* **ChristianHaitian**: Creator and visionary behind the ArkOS and dArkOS operating systems.
-* **PortMaster Team**: For native arm64/armhf open-source gaming runtime.
-* **R36S / Retro Gaming Community**: For display panel reverse engineering and hardware research.
+* **ChristianHaitian**: Creator and maintainer of the ArkOS and dArkOS operating systems.
+* **PortMaster Team**: For native ARM open-source gaming runtime and ports.
+* **R36S / Retro Handheld Community**: For display panel reverse engineering and hardware research.
