@@ -14,6 +14,8 @@ log() {
 case "$EVENT" in
   wifi_add)
     log "Wi-Fi Dongle connected ($IFACE). Starting NetworkManager..."
+    rfkill unblock all 2>/dev/null || true
+    rfkill unblock wifi 2>/dev/null || true
     systemctl start NetworkManager 2>/dev/null || true
     sleep 2
     if [ -f "/boot/wifikey.txt" ] && [ -x "/usr/local/bin/importwifi.sh" ]; then

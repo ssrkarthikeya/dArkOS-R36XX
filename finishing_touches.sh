@@ -254,6 +254,9 @@ elif [[ "$UNIT" == "r36xx" ]]; then
   sudo cp device/r36xx/checkbrightonboot Arkbuild/usr/local/bin/
   sudo cp device/r36xx/WiFi.sh Arkbuild/opt/system/
   sudo cp device/r36xx/*.rules Arkbuild/etc/udev/rules.d/ 2>/dev/null || true
+  sudo mkdir -p Arkbuild/lib/firmware/rtlwifi
+  sudo cp -vf firmware/rtlwifi/*.bin Arkbuild/lib/firmware/rtlwifi/ 2>/dev/null || true
+  sudo cp -vf firmware/*.bin firmware/*.fw Arkbuild/lib/firmware/ 2>/dev/null || true
   sudo cp device/r36xx/*.service Arkbuild/etc/systemd/system/ 2>/dev/null || true
   sudo chroot Arkbuild/ bash -c "chown -R ark:ark /opt"
   sudo chmod 777 Arkbuild/opt/system/*.sh 2>/dev/null || true
