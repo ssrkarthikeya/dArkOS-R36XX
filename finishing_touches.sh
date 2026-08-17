@@ -512,21 +512,3 @@ sudo losetup -d ${LOOP_ROM}
 sudo rm -rf ${fat32_mountpoint}
 
 
-# Install SimpleMenu configs and switcher tools
-sudo mkdir -p Arkbuild/home/ark/.simplemenu
-sudo cp -vf device/r36xx/simplemenu/*.ini Arkbuild/home/ark/.simplemenu/ 2>/dev/null || true
-sudo chown -R 1000:1000 Arkbuild/home/ark/.simplemenu
-
-sudo cp -vf device/r36xx/simplemenu/simplemenu.service Arkbuild/etc/systemd/system/
-sudo cp -vf device/r36xx/simplemenu/*.sh Arkbuild/opt/system/
-sudo chmod +x Arkbuild/opt/system/*.sh
-
-if [[ "$FRONTEND" == "simplemenu" ]]; then
-  echo "Setting SimpleMenu as the default active frontend..."
-  sudo chroot Arkbuild/ bash -c "systemctl disable emulationstation.service 2>/dev/null || true"
-  sudo chroot Arkbuild/ bash -c "systemctl enable simplemenu.service 2>/dev/null || true"
-else
-  echo "Setting EmulationStation as the default active frontend (default)..."
-  sudo chroot Arkbuild/ bash -c "systemctl disable simplemenu.service 2>/dev/null || true"
-  sudo chroot Arkbuild/ bash -c "systemctl enable emulationstation.service 2>/dev/null || true"
-fi

@@ -26,6 +26,7 @@ libarchive-zip-perl
 libasound2t64
 libboost-filesystem1.83.0
 libboost-filesystem1.88.0
+libconfig-dev
 libenet7
 libfaad2
 libfreeimage3
@@ -43,6 +44,10 @@ libopenal1
 libphysfs1
 libpixman-1-0
 libpng16-16t64
+libsdl-image1.2-dev
+libsdl-mixer1.2-dev
+libsdl-ttf2.0-dev
+libsdl1.2-dev
 libsdl2-2.0-0
 libsdl2-dev
 libsdl2-gfx-1.0-0
